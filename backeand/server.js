@@ -21,7 +21,7 @@ app.use(
   cors({
     origin: [
       
-      "https://edu-portal-eta.vercel.app/"
+      "https://edu-portal-eta.vercel.app"
     ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
