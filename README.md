@@ -2,6 +2,7 @@
 
 A full-stack web application designed for managing and streaming departmental educational resources. This project utilizes a Node.js backend and a React frontend to facilitate video uploads and resource sharing across various academic departments.
 
+>here is the website url: https://edu-portal-eta.vercel.app/
 ---
 
 ## Technical Architecture Note
