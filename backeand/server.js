@@ -20,8 +20,7 @@ const adminModel = require('./models/admin.model');
 app.use(
   cors({
     origin: [
-      "http://localhost:5173",
-      "http://localhost:3000",
+      
       "https://edu-portal-eta.vercel.app/"
     ],
     credentials: true,
