@@ -20,7 +20,7 @@ const fileaccessrouter = require('./routes/fileaccess.route');
 app.use(
   cors({
     origin: [
-      "http://localhost:5174",
+      "http://localhost:5173",
       "https://edu-portal-eta.vercel.app"
     ],
     credentials: true,

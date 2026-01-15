@@ -37,13 +37,20 @@ const Userplayground = () => {
     try {
       const url = `${import.meta.env.VITE_backend_url}/list/${encodeURIComponent(departmentscontext)}`;
       const res = await fetch(url);
-      if (!res.ok) return;
-      const data = await res.json();
-      if (Array.isArray(data.files)) {
-        setVideoFiles(data.files);
-        setCurrentVideo(data.files[0]);
+      if (!res.ok) {
+        setVideoFiles([]);
+        setCurrentVideo(null);
+        return;
       }
-    } catch (err) { console.error(err); }
+      const data = await res.json();
+      const files = Array.isArray(data.files) ? data.files : [];
+      setVideoFiles(files);
+      setCurrentVideo(files.length > 0 ? files[0] : null);
+    } catch (err) {
+      console.error(err);
+      setVideoFiles([]);
+      setCurrentVideo(null);
+    }
   };
 
   const getresourse = async () => {
@@ -51,18 +58,35 @@ const Userplayground = () => {
     try {
       const url = `${import.meta.env.VITE_backend_url}/user/list/resources/${encodeURIComponent(departmentscontext)}`;
       const res = await fetch(url);
-      if (!res.ok) return;
-      const data = await res.json();
-      if (Array.isArray(data.files)) {
-        setResourceFiles(data.files);
+      if (!res.ok) {
+        setResourceFiles([]);
+        return;
       }
-    } catch (err) { console.error(err); }
+      const data = await res.json();
+      const files = Array.isArray(data.files) ? data.files : [];
+      setResourceFiles(files);
+    } catch (err) {
+      console.error(err);
+      setResourceFiles([]);
+    }
+  };
+useEffect(() => {
+  if (!departmentscontext) return;
+
+  // Reset states when department changes
+  setVideoFiles([]);
+  setCurrentVideo(null);
+  setResourceFiles([]);
+
+  const load = async () => {
+    await getvideo();
+    await getresourse();
+    console.log(departmentscontext)
   };
 
-  useEffect(() => {
-    getvideo();
-    getresourse();
-  }, [departmentscontext]);
+  load();
+}, [departmentscontext]);
+
 
   return (
     <div className="h-screen flex flex-col bg-[#fafafa] text-black font-sans overflow-hidden">

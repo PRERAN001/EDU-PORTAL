@@ -4,8 +4,6 @@ const router = express.Router();
 const adminModel = require('../models/admin.model');
 const { authMiddleware } = require('../middleware/auth.middleware');
 
-
-
 router.get('/admin', async (req, res) => {
     const admin = await adminModel.find();
     res.send(admin);
