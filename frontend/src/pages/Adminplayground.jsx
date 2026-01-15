@@ -77,12 +77,14 @@ const Adminplayground = () => {
   }, [admindept]);
   const checkFileAccess = async (filename) => {
     try {
+      console.log("filename from frontend",filename)
+      console.log("currentadmin from frentend",currentadmin.email)
       const res = await fetch(
         `${import.meta.env.VITE_backend_url}/fileaccess/checkaccess`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ filename, currentadmin }),
+          body: JSON.stringify({ filename, currentadmin: currentadmin.email }),
         }
       );
       if (res.status === 200) {
@@ -133,7 +135,8 @@ const Adminplayground = () => {
     const renamedFile = new File([originalFile], `${finalName}${ext}`, {
       type: originalFile.type,
     });
-    const accessGranted = await addadminforfiles(finalName);
+    const filenamewithext = `${finalName}${ext}`;
+    const accessGranted = await addadminforfiles(filenamewithext);
     if (!accessGranted) {
       toast.error("Failed to add admin access for the file");
       return;
