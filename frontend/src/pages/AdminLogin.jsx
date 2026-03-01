@@ -24,6 +24,7 @@ const AdminLogin = () => {
         body: JSON.stringify(formData)
       });
       const data = await response.json();
+      console.log("adminn log".data)
       if (response.ok) {
         toast.success('Admin logged in successfully');
         localStorage.setItem('token', data.token);

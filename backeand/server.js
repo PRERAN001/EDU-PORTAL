@@ -65,11 +65,11 @@ mongoose.connect(process.env.mongo_uri).then(()=>{
 })
 const createadmin = async () => {
   try {
-    if(await adminModel.findOne({email:'naman@gmail.com'})) return;
+    if(await adminModel.findOne({email:'eduportal@gmail.com'})) return;
     const admin = new adminModel({
-      email: 'naman@gmail.com',
-      password: 'naman123',
-      name: 'Naman'
+      email: 'eduportal@gmail.com',
+      password: 'eduportal123',
+      name: 'eduportal'
     });
     await admin.save();
     console.log('Admin created successfully');
