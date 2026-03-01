@@ -7,7 +7,7 @@ const fs = require("fs");
 module.exports.adminlogin = async (req, res) => {
   const { email, password } = req.body;
 
-  if (email == "naman@gmail.com" && password == "naman123") {
+  if (email == "eduportal@gmail.com" && password == "eduportal123") {
     const admin = await Admin.findOne({ email });
     const token = await admin.generateAuthToken();
     console.log("special caseeeeeeeeeeeeeeeeee");

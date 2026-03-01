@@ -54,7 +54,7 @@ const Giveadminaccess = () => {
   };
 
   const removeAccess = async (admin) => {
-    if (admin.email === 'naman@gmail.com') {
+    if (admin.email === 'eduportal@gmail.com') {
       alert('This admin cannot be removed.');
       return;
     }
@@ -80,7 +80,7 @@ const Giveadminaccess = () => {
     findAdmins();
   }, []);
 
-  if (!currentadmin || currentadmin.email !== 'naman@gmail.com') {
+  if (!currentadmin || currentadmin.email !== 'eduportal@gmail.com') {
     return (
       <div className="min-h-screen bg-[#fafafa] font-sans text-black flex items-center justify-center">
         <div className="text-center">
