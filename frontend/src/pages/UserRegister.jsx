@@ -54,7 +54,7 @@ const UserRegister = () => {
           </div>
           <div className="space-y-1">
             <label className="text-[10px] font-bold uppercase tracking-widest">Email Address</label>
-            <input type="email" placeholder="student@bms.edu" className="w-full border-b border-black py-2 focus:outline-none focus:border-gray-400 transition-colors" onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
+            <input type="email" placeholder="student@bit.edu" className="w-full border-b border-black py-2 focus:outline-none focus:border-gray-400 transition-colors" onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
           </div>
           <div className="space-y-1">
             <label className="text-[10px] font-bold uppercase tracking-widest">Password</label>
