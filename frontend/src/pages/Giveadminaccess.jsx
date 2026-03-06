@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { SubjectContext } from '../context/Subjectcontext';
+import { getAuthHeaders } from '../utils/authStorage';
 
 const Giveadminaccess = () => {
   const [users, setUsers] = useState([]);
@@ -36,13 +37,12 @@ const Giveadminaccess = () => {
   };
 
   const giveAccess = async (user) => {
-    const token = localStorage.getItem('token');
     const res = await fetch(`${import.meta.env.VITE_backend_url}/access/give`, {
       method: 'POST',
-      headers: { 
+      credentials: 'include',
+      headers: getAuthHeaders({
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
+      }),
       body: JSON.stringify({ email: user.email }),
     });
 
@@ -58,13 +58,12 @@ const Giveadminaccess = () => {
       alert('This admin cannot be removed.');
       return;
     }
-    const token = localStorage.getItem('token');
     const res = await fetch(`${import.meta.env.VITE_backend_url}/access/remove`, {
       method: 'POST',
-      headers: { 
+      credentials: 'include',
+      headers: getAuthHeaders({
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
+      }),
       body: JSON.stringify({ email: admin.email }),
     });
 

@@ -5,6 +5,7 @@ import { useContext } from "react";
 import { SubjectContext } from "../context/Subjectcontext";
 import toast, { Toaster } from 'react-hot-toast';
 import { Link } from "react-router-dom";
+import { loadAuthSession, saveAuthSession } from "../utils/authStorage";
 
 
 const UserLogin = () => {
@@ -14,6 +15,14 @@ const UserLogin = () => {
     email: '',
     password: '',
   });
+
+  useEffect(() => {
+    const session = loadAuthSession();
+    if (session.token && session.role === 'user') {
+      navigate('/userpage');
+    }
+  }, [navigate]);
+
   const senddata = async (e) => {
     e.preventDefault();
     try {
@@ -27,8 +36,14 @@ const UserLogin = () => {
       });
       const data = await response.json();
       if (response.ok) {
+        const userProfile = {
+          email: formData.email,
+          name: data?.user?.name || 'Student'
+        };
+
         toast.success('Successfully logged in');
-        setCurrentuser(formData);
+        saveAuthSession({ token: data.token, role: 'user', profile: userProfile });
+        setCurrentuser(userProfile);
         navigate('/userpage');
       } else {
         if (data.errors) {

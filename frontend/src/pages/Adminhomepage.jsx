@@ -17,6 +17,7 @@ import {
   BookOpen 
 } from 'lucide-react';
 import Giveadminaccess from './Giveadminaccess';
+import { clearAuthSession, getAuthHeaders } from '../utils/authStorage';
 const Adminhomepage = () => {
   const { setAdmindept,currentadmin,setCurrentadmin } = useContext(SubjectContext);
   const navigate = useNavigate();
@@ -37,21 +38,25 @@ const Adminhomepage = () => {
     setAdmindept(deptName);
     navigate(`/adminplayground`);
   };
-  const handleLogout = () => {
-    setCurrentadmin(null);
-    const url=  `${import.meta.env.backend_url}/admin/adminlogout`;
-    fetch(url,{
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json'
-      },
-      
-    }).then(() => {
+  const handleLogout = async () => {
+    const url = `${import.meta.env.VITE_backend_url}/admin/adminlogout`;
+
+    try {
+      await fetch(url, {
+        method: 'POST',
+        credentials: 'include',
+        headers: getAuthHeaders({
+          'Content-Type': 'application/json'
+        }),
+      });
+    } catch (error) {
+      console.error('Logout request failed:', error);
+    } finally {
+      clearAuthSession();
+      setCurrentadmin(null);
       toast.success('Logged out successfully');
-      setTimeout(() => {
-        navigate('/');
-      }, 2000);
-    });
+      navigate('/', { replace: true });
+    }
   };
 
   return (
@@ -156,8 +161,8 @@ const Adminhomepage = () => {
               <User size={32} />
             </div>
             <div>
-              <h2 className="text-xl font-black uppercase tracking-tighter leading-none">{currentadmin.name}</h2>
-              <p className="text-xs text-gray-500 font-bold tracking-widest mt-1">{currentadmin.email}</p>
+              <h2 className="text-xl font-black uppercase tracking-tighter leading-none">{currentadmin?.name || 'Admin'}</h2>
+              <p className="text-xs text-gray-500 font-bold tracking-widest mt-1">{currentadmin?.email || 'admin@eduportal.local'}</p>
               <span className="inline-block mt-2 text-[10px] bg-black text-white px-2 py-0.5 font-bold uppercase">Super Admin</span>
             </div>
           </div>
@@ -170,7 +175,6 @@ const Adminhomepage = () => {
             className="w-full mt-auto flex items-center justify-center gap-2 bg-black text-white py-4 font-black uppercase tracking-widest text-xs hover:bg-gray-800 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.3)]"
             onClick={() => {
               handleLogout();
-              navigate('/adminlogin');
             }}
           >
             <LogOut size={18} /> Logout Session

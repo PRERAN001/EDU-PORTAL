@@ -17,6 +17,7 @@ import {
   Archive,
   GraduationCap
 } from 'lucide-react';
+import { clearAuthSession, getAuthHeaders } from '../utils/authStorage';
 
 const Userhomepage = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -39,20 +40,23 @@ const Userhomepage = () => {
     navigate('/userplayground');
   };
   const handleLogout = () => {
-    
-    const url=`${import.meta.env.VITE_backend_url}/user/userlogout`;
-    fetch(url,{
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json'
-      },
-      
-    }).then(() => {
-      toast.success('Logged out successfully');
-      setTimeout(() => {
-        navigate("/");
-      }, 2000);
-    });
+    const url = `${import.meta.env.VITE_backend_url}/user/userlogout`;
+    fetch(url, {
+      method: 'POST',
+      credentials: 'include',
+      headers: getAuthHeaders({
+        'Content-Type': 'application/json'
+      }),
+    })
+      .catch((error) => {
+        console.error('Logout request failed:', error);
+      })
+      .finally(() => {
+        clearAuthSession();
+        setCurrentuser(null);
+        toast.success('Logged out successfully');
+        navigate('/', { replace: true });
+      });
   };
   
   return (
@@ -142,8 +146,8 @@ const Userhomepage = () => {
               <User size={32} />
             </div>
             <div>
-              <h2 className="text-xl font-black uppercase tracking-tighter leading-none">{currentuser.name}</h2>
-              <p className="text-xs text-gray-500 font-bold tracking-widest mt-1">{currentuser.email}</p>
+              <h2 className="text-xl font-black uppercase tracking-tighter leading-none">{currentuser?.name || 'Student'}</h2>
+              <p className="text-xs text-gray-500 font-bold tracking-widest mt-1">{currentuser?.email || 'student@eduportal.local'}</p>
               <span className="inline-block mt-2 text-[10px] bg-black text-white px-2 py-0.5 font-bold uppercase tracking-tighter">Verified Learner</span>
             </div>
           </div>

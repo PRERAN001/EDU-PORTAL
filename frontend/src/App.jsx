@@ -14,6 +14,8 @@ import AdminLogin from './pages/AdminLogin'
 import UserRegister from './pages/UserRegister'
 import UserLogin from './pages/UserLogin'
 import Home from './pages/Home'
+import BlogEditor from './components/BlogEditor'
+import Blogsrenderpage from './pages/Blogsrenderpage'
 function App() {
   const [count, setCount] = useState(0)
 
@@ -30,6 +32,8 @@ function App() {
         <Route path="/adminplayground" element={<Adminplayground />} />
         <Route path="/userplayground" element={<Userplayground />} />
         <Route path="/giveadminaccess" element={<Giveadminaccess />} />
+        <Route path="/writeblog/:department" element ={<BlogEditor/>}></Route>
+        <Route path='/blogrender/:department' element={<Blogsrenderpage/>}></Route>
       </Routes>
     </>
   )

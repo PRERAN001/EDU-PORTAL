@@ -15,7 +15,7 @@ import {
   Video
 } from "lucide-react";
 import { SubjectContext } from "../context/Subjectcontext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Userplayground = () => {
   const { departmentscontext, videoFiles, setVideoFiles } = useContext(SubjectContext);
@@ -112,14 +112,18 @@ useEffect(() => {
         </div>
 
         <div className="flex items-center gap-8">
-          <div className="hidden lg:block text-right">
-            <p className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 text-gray-400">Completion</p>
-            <div className="flex items-center gap-3">
-              <div className="w-48 h-3 border-2 border-black bg-white overflow-hidden p-0.5">
-                <div className="h-full bg-black" style={{ width: '72%' }} />
-              </div>
-              <span className="text-xs font-black italic">72%</span>
-            </div>
+          <div className="hidden lg:flex items-center gap-6 text-right">
+            {/* HIGHLIGHTED BLOGS BUTTON */}
+            <Link 
+              to={`/blogrender/${departmentscontext}`} 
+              className="px-4 py-2 bg-black text-white border-2 border-black text-[10px] font-black uppercase tracking-[0.2em] shadow-[4px_4px_0px_0px_rgba(0,0,0,0.3)] hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5 transition-all"
+            >
+              Blogs
+            </Link>
+            
+            <h1 className="text-sm font-bold uppercase tracking-widest">
+              {videoFiles.length} Videos
+            </h1>
           </div>
           <button className="p-2 border-2 border-black hover:bg-black hover:text-white transition-all">
             <MoreHorizontal size={20} />

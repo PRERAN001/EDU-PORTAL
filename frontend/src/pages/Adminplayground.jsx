@@ -11,7 +11,7 @@ import {
   MoreHorizontal,
 } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Adminplayground = () => {
   const changevideonaem = useRef(null);
@@ -77,6 +77,10 @@ const Adminplayground = () => {
   }, [admindept]);
   const checkFileAccess = async (filename) => {
     try {
+      if (!currentadmin?.email) {
+        toast.error("Please login again to continue");
+        return false;
+      }
       console.log("filename from frontend",filename)
       console.log("currentadmin from frentend",currentadmin.email)
       const res = await fetch(
@@ -99,6 +103,10 @@ const Adminplayground = () => {
   };
   const addadminforfiles = async (filename) => {
     try {
+      if (!currentadmin?.email) {
+        toast.error("Please login again to continue");
+        return false;
+      }
       console.log("current admin---------------------------------------",currentadmin)
       const res = await fetch(
         `${import.meta.env.VITE_backend_url}/fileaccess/addadminforfiles`,
@@ -352,6 +360,12 @@ const Adminplayground = () => {
                 />
               </label>
             </form>
+            <Link
+                to={`/writeblog/${department}`}              
+                className="w-full bg-black text-white py-3 font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.3)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all"
+              >
+                Upload Blog
+              </Link>
           </div>
         </div>
 

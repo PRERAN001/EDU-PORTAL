@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useState,useEffect,useContext } from "react";
 import { SubjectContext } from "../context/Subjectcontext";
 import toast, { Toaster } from 'react-hot-toast';
+import { loadAuthSession, saveAuthSession } from "../utils/authStorage";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
@@ -11,6 +12,13 @@ const AdminLogin = () => {
     email: '',
     password: ''
   });
+
+  useEffect(() => {
+    const session = loadAuthSession();
+    if (session.token && session.role === 'admin') {
+      navigate('/adminpage');
+    }
+  }, [navigate]);
 
   const senddata = async (e) => {
     e.preventDefault();
@@ -24,11 +32,16 @@ const AdminLogin = () => {
         body: JSON.stringify(formData)
       });
       const data = await response.json();
-      console.log("adminn log".data)
+
       if (response.ok) {
+        const adminProfile = {
+          email: formData.email,
+          name: data?.admin?.name || 'Admin'
+        };
+
         toast.success('Admin logged in successfully');
-        localStorage.setItem('token', data.token);
-        setCurrentadmin(formData);
+        saveAuthSession({ token: data.token, role: 'admin', profile: adminProfile });
+        setCurrentadmin(adminProfile);
         navigate('/adminpage');
       } else {
         if (data.errors) {
