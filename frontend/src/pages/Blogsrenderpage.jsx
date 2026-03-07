@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-const BLOG_API_BASE = import.meta.env.VITE_blog_backend_url || "http://localhost:5000";
+const BLOG_API_BASE = import.meta.env.VITE_blog_backend_url 
 
 const normalizeBlog = (blogDoc, fallbackDepartment) => {
   const content = blogDoc?.content && typeof blogDoc.content === "object"
